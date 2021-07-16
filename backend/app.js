@@ -48,7 +48,7 @@ app.post('/api/posts', (req, res, next) => {
 
 // app.use('/api/posts', (req, res, next) => {
   app.get('/api/posts', (req, res, next) => {
-  // res.send('hello express');
+/*   // res.send('hello express');
 
   const posts = [
     {
@@ -62,11 +62,18 @@ app.post('/api/posts', (req, res, next) => {
       content: 'this is from server--'
     },
   ];
-  // res.json(posts);
-  res.status(200).json({
-    message: 'posts fetched successfully',
-    posts: posts
+  // res.json(posts); */
+
+  // fetching posts from database
+  Post.find().then(documents => {
+    // console.log(documents);
+    res.status(200).json({
+      message: 'posts fetched successfully',
+      posts: documents
+    });
   });
+
+
 });
 
 
