@@ -67,12 +67,22 @@ const storage = multer.diskStorage({
 
 
 // router.put('/api/posts/:id', (req, res, next) => {
-  router.put('/:id', (req, res, next) => {
+  router.put('/:id', multer({storage: storage}).single('image'), (req, res, next) => {
+  // console.log(req.file);
+  let imagePath = req.body.imagePath;
+
+  if (req.file) {
+    const url = req.protocol + '://' + req.get('host');
+    imagePath = url + '/images/' + req.file.filename;
+  }
+
   const post = new Post({
     _id: req.body.id,
     title: req.body.title,
-    conent: req.body.content
+    conent: req.body.content,
+    imagePath: imagePath
   });
+  console.log(post);
   Post.updateOne({_id: req.params.id}, post).then(result => {
     // console.log(result);
     res.status(200).json({message: 'update success'});
