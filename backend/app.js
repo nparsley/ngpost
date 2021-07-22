@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const postsRoutes = require('./routes/posts');
 const Post = require('./models/post');
@@ -17,6 +18,7 @@ mongoose.connect('mongodb+srv://postappng:postappng@cluster0.7f3jr.mongodb.net/m
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use('/images', express.static(path.join('backend/images')));
 
 
 
