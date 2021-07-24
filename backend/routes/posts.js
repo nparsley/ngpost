@@ -108,12 +108,31 @@ const storage = multer.diskStorage({
   ];
   // res.json(posts); */
 
+  //backend pagination
+  // console.log(req.query);
+  const pageSize = +req.query.pageSize;
+  const currentPage = +req.query.page;
+  const postQuery = Post.find();
+  let fetchedPosts;
+
+  if (pageSize && currentPage) {
+    postQuery
+    .skip(pageSize * (currentPage - 1))
+    .limit(pageSize);
+  }
+
   // fetching posts from database
-  Post.find().then(documents => {
+  // Post.find().then(documents => {
+    postQuery.then(documents => {
     // console.log(documents);
+    fetchedPosts = documents;
+      return Post.count();
+  }).then(count => {
     res.status(200).json({
       message: 'posts fetched successfully',
-      posts: documents
+      // posts: documents
+      posts: fetchedPosts,
+      maxPosts: count
     });
   });
 
