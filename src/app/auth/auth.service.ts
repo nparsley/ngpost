@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 import { AuthData } from "./auth-data.model";
 
 
@@ -9,11 +10,21 @@ import { AuthData } from "./auth-data.model";
 export class AuthService {
 
   private token: string;
+  private authStatusListener = new Subject<boolean>();
+  private isAuthenticated = false;
 
   constructor(private http: HttpClient) {}
 
   getToken() {
     return this.token;
+  }
+
+  getIsAuth() {
+    return this.isAuthenticated;
+  }
+
+  getAuthStatusListener() {
+    return this.authStatusListener.asObservable();
   }
 
   createUser(email: string, password: string) {
@@ -31,7 +42,19 @@ export class AuthService {
       // console.log(response);
       const token = response.token;
       this.token = token;
+      if (token) {
+        this.isAuthenticated = true;
+        this.authStatusListener.next(true);
+      }
+      // this.isAuthenticated = true;
+      // this.authStatusListener.next(true);
     });
+  }
+
+  logout() {
+    this.token = null;
+    this.isAuthenticated = false;
+    this.authStatusListener.next(false);
   }
 }
 
