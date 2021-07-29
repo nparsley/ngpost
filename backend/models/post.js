@@ -6,7 +6,9 @@ const postSchema = mongoose.Schema({
   // content: String
   title: { type: String, rquired: true },
   content: { type: String, required: true },
-  imagePath: { type: String, required: true }
+  imagePath: { type: String, required: true },
+  // store user info
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
 
