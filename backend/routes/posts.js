@@ -85,12 +85,18 @@ const storage = multer.diskStorage({
     _id: req.body.id,
     title: req.body.title,
     conent: req.body.content,
-    imagePath: imagePath
+    imagePath: imagePath,
+    creator: req.userData.userId
   });
   console.log(post);
-  Post.updateOne({_id: req.params.id}, post).then(result => {
+  Post.updateOne({_id: req.params.id, creator: req.userData.Id }, post).then(result => {
     // console.log(result);
-    res.status(200).json({message: 'update success'});
+    if (result.nModified > 0) {
+      res.status(200).json({message: 'update success'});
+    } else {
+    res.status(401).json({message: 'not authorized'});
+    }
+    // res.status(200).json({message: 'update success'});
   });
 });
 
@@ -156,9 +162,14 @@ router.get('/:id', (req, res, next) => {
 
 router.delete('/:id', checkAuth, (req, res, next) => {
   // console.log(req.params.id);
-  Post.deleteOne({_id: req.params.id}).then(result => {
+  Post.deleteOne({_id: req.params.id, creator: req.userData.userId }).then(result => {
     console.log(result);
-    res.status(200).json({message: 'post deleted'});
+    // res.status(200).json({message: 'post deleted'});
+    if (result.n > 0) {
+      res.status(200).json({message: 'deletion success'});
+    } else {
+    res.status(401).json({message: 'not authorized'});
+    }
   });
 
 });
