@@ -1,6 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap } from "@angular/router";
+import { Subscription } from "rxjs";
+import { AuthService } from "src/app/auth/auth.service";
 import { Post } from "../post.model";
 import { PostService } from "../posts.service";
 import { mimeType } from "./mime-type.validator";
@@ -10,7 +12,7 @@ import { mimeType } from "./mime-type.validator";
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.css']
 })
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit, OnDestroy {
   enteredContent = '';
   enteredTitle = '';
   // @Output() postCreated = new EventEmitter<Post>();
@@ -19,6 +21,8 @@ export class PostCreateComponent implements OnInit {
   post: Post;
   isLoading = false;
 
+  private authStatusSub: Subscription;
+
   // creating form programatically
   form: FormGroup;
 
@@ -26,7 +30,11 @@ export class PostCreateComponent implements OnInit {
   imagePreview: string;
 
 
-  constructor(public postService: PostService, public route: ActivatedRoute) {}
+  constructor(
+    public postService: PostService,
+    public route: ActivatedRoute,
+    private authService: AuthService
+    ) {}
 
   // onSavePost(form: NgForm) {
   //   if (form.invalid) {
@@ -76,6 +84,11 @@ export class PostCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading = false;
+      }
+    );
     //initialize form
     this.form = new FormGroup({
       'title': new FormControl(null, {
@@ -117,6 +130,10 @@ export class PostCreateComponent implements OnInit {
         this.postId = null;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
   }
 
 }

@@ -65,6 +65,11 @@ const storage = multer.diskStorage({
         // id: createdPost._id
       }
     });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'creating a post failed'
+    });
   });
 
 });
@@ -97,6 +102,11 @@ const storage = multer.diskStorage({
     res.status(401).json({message: 'not authorized'});
     }
     // res.status(200).json({message: 'update success'});
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'could not update post'
+    })
   });
 });
 
@@ -145,6 +155,11 @@ const storage = multer.diskStorage({
       posts: fetchedPosts,
       maxPosts: count
     });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'fetching posts failed'
+    })
   });
 
 });
@@ -157,6 +172,11 @@ router.get('/:id', (req, res, next) => {
     } else {
       res.status(404).json({message: 'post not found'});
     }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'fetching post failed'
+    })
   });
 });
 
@@ -170,6 +190,11 @@ router.delete('/:id', checkAuth, (req, res, next) => {
     } else {
     res.status(401).json({message: 'not authorized'});
     }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'fetching posts failed'
+    })
   });
 
 });
