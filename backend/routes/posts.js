@@ -1,7 +1,9 @@
 const express = require('express');
 const multer = require('multer');
 
-const Post = require('../models/post');
+
+const PostController = require('../controllers/posts');
+// const Post = require('../models/post');
 const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
@@ -38,6 +40,11 @@ const storage = multer.diskStorage({
 
 // router.post('/api/posts', (req, res, next) => {
   // router.post('', (req, res, next) => {
+    router.post('', checkAuth, multer({storage: storage}).single('image'), PostController.createPost);
+
+
+/* // router.post('/api/posts', (req, res, next) => {
+  // router.post('', (req, res, next) => {
     router.post('', checkAuth, multer({storage: storage}).single('image'), (req, res, next) => {
       const url = req.protocol + '://' + req.get('host');
   // const post = req.body;
@@ -72,100 +79,120 @@ const storage = multer.diskStorage({
     });
   });
 
-});
+}); */
+
+
 
 
 
 // router.put('/api/posts/:id', (req, res, next) => {
+  router.put('/:id', checkAuth, multer({storage: storage}).single('image'), PostController.updatePost);
+
+
+/* // router.put('/api/posts/:id', (req, res, next) => {
   router.put('/:id', checkAuth, multer({storage: storage}).single('image'), (req, res, next) => {
-  // console.log(req.file);
-  let imagePath = req.body.imagePath;
+    // console.log(req.file);
+    let imagePath = req.body.imagePath;
 
-  if (req.file) {
-    const url = req.protocol + '://' + req.get('host');
-    imagePath = url + '/images/' + req.file.filename;
-  }
-
-  const post = new Post({
-    _id: req.body.id,
-    title: req.body.title,
-    conent: req.body.content,
-    imagePath: imagePath,
-    creator: req.userData.userId
-  });
-  console.log(post);
-  Post.updateOne({_id: req.params.id, creator: req.userData.Id }, post).then(result => {
-    // console.log(result);
-    if (result.nModified > 0) {
-      res.status(200).json({message: 'update success'});
-    } else {
-    res.status(401).json({message: 'not authorized'});
+    if (req.file) {
+      const url = req.protocol + '://' + req.get('host');
+      imagePath = url + '/images/' + req.file.filename;
     }
-    // res.status(200).json({message: 'update success'});
-  })
-  .catch(error => {
-    res.status(500).json({
-      message: 'could not update post'
+
+    const post = new Post({
+      _id: req.body.id,
+      title: req.body.title,
+      conent: req.body.content,
+      imagePath: imagePath,
+      creator: req.userData.userId
+    });
+    console.log(post);
+    Post.updateOne({_id: req.params.id, creator: req.userData.Id }, post).then(result => {
+      // console.log(result);
+      if (result.nModified > 0) {
+        res.status(200).json({message: 'update success'});
+      } else {
+      res.status(401).json({message: 'not authorized'});
+      }
+      // res.status(200).json({message: 'update success'});
     })
-  });
-});
+    .catch(error => {
+      res.status(500).json({
+        message: 'could not update post'
+      })
+    });
+  }); */
+
+
+
+
 
 
 // app.use('/api/posts', (req, res, next) => {
-  router.get('', (req, res, next) => {
-/*   // res.send('hello express');
+  router.get('', PostController.getPosts);
 
-  const posts = [
-    {
-      id: 'numberone',
-      title: 'first server side post',
-      content: 'this is from server'
-    },
-    {
-      id: 'numbertwo',
-      title: 'second server side post',
-      content: 'this is from server--'
-    },
-  ];
-  // res.json(posts); */
+// // app.use('/api/posts', (req, res, next) => {
+//   router.get('', (req, res, next) => {
+//     /*   // res.send('hello express');
 
-  //backend pagination
-  // console.log(req.query);
-  const pageSize = +req.query.pageSize;
-  const currentPage = +req.query.page;
-  const postQuery = Post.find();
-  let fetchedPosts;
+//       const posts = [
+//         {
+//           id: 'numberone',
+//           title: 'first server side post',
+//           content: 'this is from server'
+//         },
+//         {
+//           id: 'numbertwo',
+//           title: 'second server side post',
+//           content: 'this is from server--'
+//         },
+//       ];
+//       // res.json(posts); */
 
-  if (pageSize && currentPage) {
-    postQuery
-    .skip(pageSize * (currentPage - 1))
-    .limit(pageSize);
-  }
+//       //backend pagination
+//       // console.log(req.query);
+//       const pageSize = +req.query.pageSize;
+//       const currentPage = +req.query.page;
+//       const postQuery = Post.find();
+//       let fetchedPosts;
 
-  // fetching posts from database
-  // Post.find().then(documents => {
-    postQuery.then(documents => {
-    // console.log(documents);
-    fetchedPosts = documents;
-      return Post.count();
-  }).then(count => {
-    res.status(200).json({
-      message: 'posts fetched successfully',
-      // posts: documents
-      posts: fetchedPosts,
-      maxPosts: count
-    });
-  })
-  .catch(error => {
-    res.status(500).json({
-      message: 'fetching posts failed'
-    })
-  });
+//       if (pageSize && currentPage) {
+//         postQuery
+//         .skip(pageSize * (currentPage - 1))
+//         .limit(pageSize);
+//       }
 
-});
+//       // fetching posts from database
+//       // Post.find().then(documents => {
+//         postQuery.then(documents => {
+//         // console.log(documents);
+//         fetchedPosts = documents;
+//           return Post.count();
+//       }).then(count => {
+//         res.status(200).json({
+//           message: 'posts fetched successfully',
+//           // posts: documents
+//           posts: fetchedPosts,
+//           maxPosts: count
+//         });
+//       })
+//       .catch(error => {
+//         res.status(500).json({
+//           message: 'fetching posts failed'
+//         })
+//       });
+
+//     });
 
 
-router.get('/:id', (req, res, next) => {
+
+
+
+
+
+router.get('/:id', PostController.getPost);
+
+/* router.get('/:id', (req, res, next) => {
   Post.findById(req.params.id).then(post => {
     if (post) {
       res.status(200).json(post);
@@ -178,9 +205,19 @@ router.get('/:id', (req, res, next) => {
       message: 'fetching post failed'
     })
   });
-});
+}); */
 
-router.delete('/:id', checkAuth, (req, res, next) => {
+
+
+
+
+
+
+
+
+router.delete('/:id', checkAuth, PostController.deletePost);
+
+/* router.delete('/:id', checkAuth, (req, res, next) => {
   // console.log(req.params.id);
   Post.deleteOne({_id: req.params.id, creator: req.userData.userId }).then(result => {
     console.log(result);
@@ -197,8 +234,7 @@ router.delete('/:id', checkAuth, (req, res, next) => {
     })
   });
 
-});
-
+}); */
 
 module.exports = router;
 
