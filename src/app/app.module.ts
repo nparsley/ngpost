@@ -27,7 +27,7 @@ import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { PostsModule } from './posts/posts.module';
-import { AuthModule } from './auth/auth.module';
+// import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -57,7 +57,7 @@ import { AuthModule } from './auth/auth.module';
     // MatDialogModule
     AngularMaterialModule,
     PostsModule,
-    AuthModule
+    // AuthModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
