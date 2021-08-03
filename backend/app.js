@@ -10,7 +10,7 @@ const Post = require('./models/post');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://postappng:postappng@cluster0.7f3jr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+mongoose.connect("mongodb+srv://postappng:" + process.env.MONGO_ATLAS_PW + "@cluster0.7f3jr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", )
   .then(() => {
     console.log('connected to database')
 })

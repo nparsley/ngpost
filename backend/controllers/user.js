@@ -56,7 +56,9 @@ exports.userLogin = (req, res, next) => {
       // userId: user._id
       email: fetchedUser.email,
       userId: fetchedUser._id
-    }, 'secret_this_pw', { expiresIn: '1h' }
+    // }, 'secret_this_pw', { expiresIn: '1h' }
+  },
+   process.env.JWT_KEY, { expiresIn: '1h' }
     );
     res.status(200).json({
       token: token,

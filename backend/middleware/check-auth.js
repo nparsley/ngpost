@@ -6,7 +6,8 @@ module.exports = (req, res, next) => {
     // get jwt to store
     const token = req.headers.authorization.split(' ')[1];
     // jwt.verify(token, 'secret_this_pw');
-    const decodedToken = jwt.verify(token, 'secret_this_pw');
+    // const decodedToken = jwt.verify(token, 'secret_this_pw');
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
     req.userData = { email: decodedToken.email, userId: decodedToken.userId };
     next();
   } catch (error) {

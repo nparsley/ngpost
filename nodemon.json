@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MONGO_ATLAS_PW": "postappng",
+    "JWT_KEY": "secret_this_pw"
+  }
+}
