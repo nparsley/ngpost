@@ -5,11 +5,3 @@ export const environment = {
 };
 
 
-/* "scripts": {
-  "ng": "ng",
-  "start": "ng serve",
-  "build": "ng build",
-  "watch": "ng build --watch --configuration development",
-  "test": "ng test",
-  "start:server": "nodemon ./backend/server.js"
-}, */

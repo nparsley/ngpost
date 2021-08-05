@@ -10,14 +10,6 @@ const Post = require('./models/post');
 
 const app = express();
 
-
-// hrk config
-app.use("/", express.static(path.join(__dirname, "../dist/mean2021")));
-
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "../dist/mean2021/index.html"));
-});
-
 mongoose.connect("mongodb+srv://postappng:" + process.env.MONGO_ATLAS_PW + "@cluster0.7f3jr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
   .then(() => {
     console.log('connected to database')
@@ -38,12 +30,6 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
   next();
 });
-
-// app.use((req, res, next) => {
-//   console.log('first middleware')
-//   next();
-// });
-
 
 
 app.use('/api/posts', postsRoutes);
