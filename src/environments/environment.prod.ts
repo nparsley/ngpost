@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   // apiUrl: "http://postapp-env.eba-fcjy24fi.us-east-2.elasticbeanstalk.com/api"
-  apiUrl: ''
+  apiUrl: 'https://git.heroku.com/postappng.git'
 };
 
 
