@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, "../dist/mean2021/index.html"));
 });
 
-mongoose.connect("mongodb+srv://postappng:" + process.env.MONGO_ATLAS_PW + "@cluster0.7f3jr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", )
+mongoose.connect("mongodb+srv://postappng:" + process.env.MONGO_ATLAS_PW + "@cluster0.7f3jr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
   .then(() => {
     console.log('connected to database')
 })
