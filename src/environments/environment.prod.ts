@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  // apiUrl: "http://postapp-env.eba-fcjy24fi.us-east-2.elasticbeanstalk.com/api"
+  apiUrl: "http://postappmean-env.eba-bjcqpmx6.us-east-2.elasticbeanstalk.com/api"
+
   // apiUrl: 'https://postappng.herokuapp.com/api'
 };
 
