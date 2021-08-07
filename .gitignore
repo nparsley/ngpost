@@ -44,8 +44,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.browserslistrc
-.editorconfig
+/.browserslistrc
+/.editorconfig
 .gitignore
 \angular.json
 \karma.conf.js
