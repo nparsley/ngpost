@@ -43,3 +43,15 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+postappng\.browserslistrc
+postappng\.editorconfig
+postappng\.gitignore
+postappng\angular.json
+postappng\karma.conf.js
+postappng\nodemon.json
+postappng\package-lock.json
+postappng\package.json
+postappng\tsconfig.app.json
+postappng\tsconfig.json
+postappng\tsconfig.spec.json
